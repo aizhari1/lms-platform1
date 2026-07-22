@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "courses": "Courses",
+    "about": "About Siraj",
+    "pricing": "Pricing",
+    "login": "Log in",
+    "register": "Sign up"
+  },
+  "hero": {
+    "eyebrow": "Arabic Language Learning Platform",
+    "title": "Master Arabic — grammar, rhetoric, and literature",
+    "subtitle": "A clear, structured path through grammar, rhetoric, and literature, with hands-on practice and real progress tracking.",
+    "ctaPrimary": "Start learning now",
+    "ctaSecondary": "Browse courses",
+    "stat1Label": "Enrolled students",
+    "stat2Label": "Published courses",
+    "stat3Label": "Satisfaction rate"
+  },
+  "features": {
+    "eyebrow": "Why choose us?",
+    "title": "Everything about Arabic in one place",
+    "item1Title": "Structured content",
+    "item1Desc": "Explanations, questions, and hands-on practice in a clear step-by-step path",
+    "item2Title": "Track your progress",
+    "item2Desc": "A dashboard that shows your completion rate in every course, in real time",
+    "item3Title": "Interactive exams",
+    "item3Desc": "Practice questions and timed exams after every section",
+    "item4Title": "Verified certificates",
+    "item4Desc": "A completion certificate verifiable via QR code once you pass the course",
+    "item5Title": "Continuous support",
+    "item5Desc": "An academic team that answers your questions promptly",
+    "item6Title": "Learn from any device",
+    "item6Desc": "Keep learning seamlessly from mobile, tablet, or desktop"
+  },
+  "marquee": {
+    "phrase": "Our Arabic language — authenticity in every letter"
+  },
+  "aboutTeaser": {
+    "eyebrow": "About the platform",
+    "title": "Thousands of students mastering Arabic with us",
+    "body": "A platform dedicated to teaching Arabic in all its branches — grammar, morphology, rhetoric, literature, and composition — with a simplified approach and real progress tracking for every student.",
+    "badge": "Arabic language specialists",
+    "floatingNote": "A genuine learning experience"
+  },
+  "stages": {
+    "eyebrow": "Learning tracks",
+    "title": "We teach every branch of Arabic",
+    "item1Title": "Grammar & Morphology",
+    "item1Desc": "Simplified rules with parsing and practical drills",
+    "item2Title": "Rhetoric & Criticism",
+    "item2Desc": "Eloquence and stylistics with real examples",
+    "item3Title": "Literature & Texts",
+    "item3Desc": "Eras of Arabic literature and famous text analysis",
+    "item4Title": "Writing & Composition",
+    "item4Desc": "Creative and functional writing skills"
+  },
+  "video": {
+    "eyebrow": "Watch before you start",
+    "title": "A quick tour of the platform"
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Choose the plan that fits you",
+    "cta": "Subscribe now",
+    "mostPopular": "Most popular"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "tagline": "Siraj — the light of knowledge, in your hands",
+    "poweredBy": "Powered by Siraj Platform"
+  }
+}
