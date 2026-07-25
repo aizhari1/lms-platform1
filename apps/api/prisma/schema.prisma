@@ -407,7 +407,6 @@ model Course {
   @@index([teacherId])
   @@index([categoryId])
   @@index([status])
-  @@fulltext([titleAr, titleEn])
   @@map("courses")
 }
 
