@@ -988,7 +988,7 @@ enum BadgeCode {
   FIVE_COURSES_COMPLETED
 }
 
-/** Static catalog of badges a student can earn. Seeded once, rarely changes. */
+/// Static catalog of badges a student can earn. Seeded once, rarely changes.
 model Badge {
   id          String      @id @default(cuid())
   code        BadgeCode   @unique
@@ -1005,7 +1005,7 @@ model Badge {
   @@map("badges")
 }
 
-/** Join table: which student earned which badge, and when. */
+/// Join table: which student earned which badge, and when.
 model UserBadge {
   id        String   @id @default(cuid())
   userId    String
@@ -1023,7 +1023,7 @@ model UserBadge {
 // STUDY PLANNER
 // =========================================================================
 
-/** A self-scheduled study goal/task a student sets for themselves. */
+/// A self-scheduled study goal/task a student sets for themselves.
 model StudyPlanItem {
   id          String    @id @default(cuid())
   studentId   String
@@ -1047,7 +1047,7 @@ model StudyPlanItem {
 // DOWNLOAD CENTER / RESOURCES
 // =========================================================================
 
-/** A downloadable attachment on a lesson (slides, worksheet, source code, etc). */
+/// A downloadable attachment on a lesson (slides, worksheet, source code, etc).
 model LessonResource {
   id         String   @id @default(cuid())
   lessonId   String
@@ -1065,7 +1065,7 @@ model LessonResource {
   @@map("lesson_resources")
 }
 
-/** A student bookmarking a resource for quick access later. */
+/// A student bookmarking a resource for quick access later.
 model SavedResource {
   id         String         @id @default(cuid())
   studentId  String
@@ -1080,7 +1080,7 @@ model SavedResource {
   @@map("saved_resources")
 }
 
-/** Tracks which courses a student recently browsed (not necessarily enrolled). */
+/// Tracks which courses a student recently browsed (not necessarily enrolled).
 model RecentlyViewedCourse {
   id        String   @id @default(cuid())
   studentId String
@@ -1217,10 +1217,8 @@ model RubricCriterion {
   @@map("rubric_criteria")
 }
 
-/**
- * Every submit/resubmit attempt is its own row — this IS the "Submission
- * History" (ordered by attemptNumber/createdAt for one student+assignment).
- */
+/// Every submit/resubmit attempt is its own row — this IS the "Submission
+/// History" (ordered by attemptNumber/createdAt for one student+assignment).
 model AssignmentSubmission {
   id             String           @id @default(cuid())
   assignmentId   String
@@ -1292,7 +1290,7 @@ model RefundRequest {
   @@map("refund_requests")
 }
 
-/** Payment Logs: an immutable audit trail of every payment-related event. */
+/// Payment Logs: an immutable audit trail of every payment-related event.
 model PaymentLog {
   id        String   @id @default(cuid())
   orderId   String
@@ -1306,7 +1304,7 @@ model PaymentLog {
   @@map("payment_logs")
 }
 
-/** Discount Campaigns: time-boxed, auto-applied sales (no code needed) — distinct from manual Coupons. */
+/// Discount Campaigns: time-boxed, auto-applied sales (no code needed) — distinct from manual Coupons.
 model DiscountCampaign {
   id           String   @id @default(cuid())
   titleAr      String
@@ -1328,7 +1326,7 @@ model DiscountCampaign {
 // ADMIN TOOLING
 // =========================================================================
 
-/** Editable HTML templates for outgoing emails (Email Templates). */
+/// Editable HTML templates for outgoing emails (Email Templates).
 model EmailTemplate {
   id          String   @id @default(cuid())
   key         String   @unique // e.g. WELCOME, PASSWORD_RESET, COURSE_APPROVED, INVOICE
@@ -1340,7 +1338,7 @@ model EmailTemplate {
   @@map("email_templates")
 }
 
-/** Editable copy for in-app/push notifications (Notification Templates). */
+/// Editable copy for in-app/push notifications (Notification Templates).
 model NotificationTemplate {
   id        String   @id @default(cuid())
   key       String   @unique // e.g. maps loosely to NotificationType
@@ -1352,12 +1350,10 @@ model NotificationTemplate {
   @@map("notification_templates")
 }
 
-/**
- * Queue Monitor: a lightweight log of async background work the API
- * fires off (invoice generation, badge sweeps, bulk emails...). Not a
- * real job queue (no BullMQ/Redis worker is wired up yet — see
- * PERFORMANCE > Background Jobs) but gives admins visibility today.
- */
+/// Queue Monitor: a lightweight log of async background work the API
+/// fires off (invoice generation, badge sweeps, bulk emails...). Not a
+/// real job queue (no BullMQ/Redis worker is wired up yet — see
+/// PERFORMANCE > Background Jobs) but gives admins visibility today.
 model BackgroundJobLog {
   id          String   @id @default(cuid())
   jobType     String
@@ -1371,7 +1367,7 @@ model BackgroundJobLog {
   @@map("background_job_logs")
 }
 
-/** Backup Manager: metadata for each database backup snapshot taken. */
+/// Backup Manager: metadata for each database backup snapshot taken.
 model BackupRecord {
   id         String   @id @default(cuid())
   fileUrl    String
@@ -1387,7 +1383,7 @@ model BackupRecord {
 // SECURITY
 // =========================================================================
 
-/** Password History: prevents reusing the last N passwords. */
+/// Password History: prevents reusing the last N passwords.
 model PasswordHistory {
   id           String   @id @default(cuid())
   userId       String
@@ -1399,12 +1395,10 @@ model PasswordHistory {
   @@map("password_history")
 }
 
-/**
- * Trusted Devices: a device the user has explicitly marked "remember
- * me" on — future logins from it can skip the 2FA challenge until it
- * expires. Distinct from RefreshToken (a session) — a device stays
- * trusted across many separate login sessions.
- */
+/// Trusted Devices: a device the user has explicitly marked "remember
+/// me" on — future logins from it can skip the 2FA challenge until it
+/// expires. Distinct from RefreshToken (a session) — a device stays
+/// trusted across many separate login sessions.
 model TrustedDevice {
   id          String   @id @default(cuid())
   userId      String
