@@ -30,7 +30,7 @@ export class TeacherAnalyticsService {
     // Per-course breakdown.
     const byCourseMap = new Map<string, { courseTitle: string; amount: number }>();
     for (const e of earnings) {
-      if (!e.order.courseId) continue;
+      if (!e.order?.courseId) continue;
       const key = e.order.courseId;
       const existing = byCourseMap.get(key);
       byCourseMap.set(key, {
@@ -254,8 +254,8 @@ export class TeacherAnalyticsService {
       rows.push(
         [
           e.createdAt.toISOString(),
-          this.csvEscape(e.order.orderNo),
-          this.csvEscape(e.order.course?.titleAr ?? ''),
+          this.csvEscape(e.order?.orderNo ?? ''),
+          this.csvEscape(e.order?.course?.titleAr ?? ''),
           e.amount.toString(),
           e.commissionPct.toString(),
           e.netAmount.toString(),
