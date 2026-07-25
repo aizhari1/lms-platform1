@@ -393,6 +393,7 @@ model Course {
   questionCategories QuestionCategory[]
   assignments      Assignment[]
   discountCampaigns DiscountCampaign[]
+  orders           Order[]
 
   totalStudents    Int           @default(0)
   averageRating    Decimal       @default(0) @db.Decimal(2, 1)
@@ -733,6 +734,7 @@ model Order {
   user           User            @relation(fields: [userId], references: [id])
   type           OrderType       @default(COURSE)
   courseId       String?
+  course         Course?         @relation(fields: [courseId], references: [id])
   subtotal       Decimal         @db.Decimal(10, 2)
   discountAmount Decimal         @default(0) @db.Decimal(10, 2)
   totalAmount    Decimal         @db.Decimal(10, 2)
@@ -751,6 +753,7 @@ model Order {
 
   refundRequests RefundRequest[]
   paymentLogs    PaymentLog[]
+  teacherEarnings TeacherEarning[]
 
   @@index([userId])
   @@index([status])
@@ -820,6 +823,7 @@ model TeacherEarning {
   teacherId   String
   teacher     User     @relation(fields: [teacherId], references: [id])
   orderId     String?
+  order       Order?   @relation(fields: [orderId], references: [id])
   amount      Decimal  @db.Decimal(10, 2)
   commissionPct Decimal @default(20) @db.Decimal(5, 2)
   netAmount   Decimal  @db.Decimal(10, 2)
