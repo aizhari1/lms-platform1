@@ -115,12 +115,15 @@ export class PaymentsService {
       return {
         requiresPayment: true,
         order,
+        // `checkoutUrl` is the one field every client (web + Flutter) reads.
+        // `redirectUrl` kept as an alias so nothing already using it breaks.
+        checkoutUrl: session.url,
         redirectUrl: session.url,
       };
     }
 
     if (dto.provider === PaymentProvider.PAYMOB) {
-      const { paymentKey, iframeId } = await this.paymobService.createPaymentKey({
+      const { paymentKey, iframeId, checkoutUrl } = await this.paymobService.createPaymentKey({
         orderId: order.id,
         amountEgp: totalAmount,
         customerEmail: userEmail,
@@ -131,6 +134,7 @@ export class PaymentsService {
       return {
         requiresPayment: true,
         order,
+        checkoutUrl,
         paymentKey,
         iframeId,
       };
@@ -404,7 +408,7 @@ export class PaymentsService {
    *  the student's course access and marks the order accordingly. */
   async resolveRefundRequest(
     refundRequestId: string,
-    status: RefundStatus.APPROVED | RefundStatus.REJECTED,
+    status: Extract<RefundStatus, 'APPROVED' | 'REJECTED'>,
     adminNote?: string,
   ) {
     const refundRequest = await this.prisma.refundRequest.findUnique({
