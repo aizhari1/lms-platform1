@@ -37,7 +37,7 @@ export class PaymobService {
     customerEmail: string;
     customerFullName: string;
     customerPhone: string;
-  }): Promise<{ paymentKey: string; iframeId: string }> {
+  }): Promise<{ paymentKey: string; iframeId: string; checkoutUrl: string }> {
     const authToken = await this.authenticate();
     const paymobOrderId = await this.registerOrder(
       authToken,
@@ -50,10 +50,16 @@ export class PaymobService {
       params,
     );
 
-    return {
-      paymentKey,
-      iframeId: this.config.get<string>('PAYMOB_IFRAME_ID') as string,
-    };
+    const iframeId = this.config.get<string>('PAYMOB_IFRAME_ID') as string;
+
+    // Build the full hosted-iframe URL server-side. Previously only the
+    // raw paymentKey/iframeId were returned and the *web* frontend
+    // stitched them into a URL using NEXT_PUBLIC_PAYMOB_IFRAME_URL. The
+    // Flutter app has no such env var and just needs one ready-to-load
+    // URL for its WebView — so build it here once, for every client.
+    const checkoutUrl = `${this.baseUrl}/acceptance/iframes/${iframeId}?payment_token=${paymentKey}`;
+
+    return { paymentKey, iframeId, checkoutUrl };
   }
 
   /**
