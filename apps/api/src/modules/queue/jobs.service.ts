@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { PrismaService } from '../../database/prisma.service';
-import { BACKGROUND_QUEUE } from './queue.module';
+import { BACKGROUND_QUEUE } from './queue.constants';
 
 export type BackgroundJobType = 'BULK_EMAIL' | 'BULK_NOTIFY' | 'AWARD_STREAK_BADGES_SWEEP';
 
