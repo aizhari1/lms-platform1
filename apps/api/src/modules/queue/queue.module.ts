@@ -6,8 +6,9 @@ import { JobsProcessor } from './jobs.processor';
 import { MailModule } from '../mail/mail.module';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { UploadsModule } from '../uploads/uploads.module';
+import { BACKGROUND_QUEUE } from './queue.constants';
 
-export const BACKGROUND_QUEUE = 'background-jobs';
+export { BACKGROUND_QUEUE };
 
 /**
  * Background Jobs / Queue Processing — wires up the `bull`/`@nestjs/bull`
@@ -26,6 +27,7 @@ export const BACKGROUND_QUEUE = 'background-jobs';
           host: config.get<string>('redis.host'),
           port: config.get<number>('redis.port'),
           password: config.get<string>('redis.password'),
+          tls: config.get<boolean>('redis.tls') ? {} : undefined,
         },
       }),
     }),
