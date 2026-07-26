@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -60,10 +60,13 @@ async function bootstrap(): Promise<void> {
   });
 
   // ---------------------------------------------------------------------
-  // Global prefix + versioning (e.g. /api/v1/courses)
+  // Global prefix (e.g. /api/v1/courses). Note: URI versioning is NOT
+  // enabled here on purpose — apiPrefix already includes "v1", so adding
+  // NestJS's built-in versioning on top of it would double it up into
+  // /api/v1/v1/... . If per-route versioning is ever needed, remove the
+  // "v1" from apiPrefix first and re-enable enableVersioning() instead.
   // ---------------------------------------------------------------------
   app.setGlobalPrefix(apiPrefix);
-  app.enableVersioning({ type: VersioningType.URI, defaultVersion: '1' });
 
   // ---------------------------------------------------------------------
   // Global validation (class-validator DTOs) — strips unknown props,
