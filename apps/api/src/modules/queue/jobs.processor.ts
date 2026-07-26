@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import type { Job } from 'bull';
-import { BACKGROUND_QUEUE } from './queue.module';
+import { BACKGROUND_QUEUE } from './queue.constants';
 import { JobsService } from './jobs.service';
 import { MailService } from '../mail/mail.service';
 import { NotificationsService } from '../notifications/notifications.service';
