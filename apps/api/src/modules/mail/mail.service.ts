@@ -5,7 +5,7 @@ import { PrismaService } from '../../database/prisma.service';
 
 @Injectable()
 export class MailService {
-  private readonly resend: Resend;
+  private readonly resend: Resend | null;
   private readonly logger = new Logger(MailService.name);
   private readonly fromAddress: string;
 
@@ -13,7 +13,13 @@ export class MailService {
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
   ) {
-    this.resend = new Resend(this.config.get<string>('RESEND_API_KEY'));
+    const apiKey = this.config.get<string>('RESEND_API_KEY');
+    if (apiKey) {
+      this.resend = new Resend(apiKey);
+    } else {
+      this.resend = null;
+      this.logger.warn('RESEND_API_KEY not set — email sending is disabled');
+    }
     const fromName = this.config.get<string>('MAIL_FROM_NAME', 'SIRAJ LMS');
     const fromEmail = this.config.get<string>(
       'MAIL_FROM_ADDRESS',
@@ -140,6 +146,10 @@ export class MailService {
     subject: string;
     html: string;
   }): Promise<void> {
+    if (!this.resend) {
+      this.logger.warn(`Email to ${params.to} skipped — RESEND_API_KEY not configured`);
+      return;
+    }
     try {
       await this.resend.emails.send({
         from: this.fromAddress,

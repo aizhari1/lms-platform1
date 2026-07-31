@@ -1,15 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
-  private readonly stripe: Stripe;
+  private readonly stripe: Stripe | null;
+  private readonly logger = new Logger(StripeService.name);
 
   constructor(private readonly config: ConfigService) {
-    this.stripe = new Stripe(this.config.get<string>('STRIPE_SECRET_KEY') as string, {
-      apiVersion: '2025-02-24.acacia',
-    });
+    const secretKey = this.config.get<string>('STRIPE_SECRET_KEY');
+    if (secretKey) {
+      this.stripe = new Stripe(secretKey, {
+        apiVersion: '2025-02-24.acacia',
+      });
+    } else {
+      this.stripe = null;
+      this.logger.warn('STRIPE_SECRET_KEY not set — Stripe payments are disabled');
+    }
   }
 
   /**
@@ -24,6 +31,9 @@ export class StripeService {
     currency: string;
     customerEmail: string;
   }): Promise<Stripe.Checkout.Session> {
+    if (!this.stripe) {
+      throw new Error('Stripe is not configured. Set STRIPE_SECRET_KEY to enable Stripe payments.');
+    }
     const clientUrl = this.config.get<string>('app.clientUrl');
 
     return this.stripe.checkout.sessions.create({
@@ -51,6 +61,9 @@ export class StripeService {
    * critical to prevent forged "payment succeeded" callbacks.
    */
   constructWebhookEvent(rawBody: Buffer, signature: string): Stripe.Event {
+    if (!this.stripe) {
+      throw new Error('Stripe is not configured. Set STRIPE_SECRET_KEY to enable Stripe webhooks.');
+    }
     const webhookSecret = this.config.get<string>('STRIPE_WEBHOOK_SECRET') as string;
     return this.stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   }
